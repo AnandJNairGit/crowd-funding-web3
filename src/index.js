@@ -1,13 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { green, purple, yellow } from "@mui/material/colors";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: yellow[500],
+    },
+    secondary: {
+      main: green[500],
+    },
+  },
+});
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <ThemeProvider theme={darkTheme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
