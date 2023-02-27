@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { green, purple, yellow } from "@mui/material/colors";
+import { green, purple, yellow, orange } from "@mui/material/colors";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -14,7 +14,7 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: yellow[500],
+      main: orange[500],
     },
     secondary: {
       main: green[500],
