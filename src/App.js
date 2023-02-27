@@ -1,24 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+// import { CssBaseline } from "@mui/material";
+import { BrowserRouter as Router, Routes, Link,Route } from "react-router-dom";
+import NavBar from "./components/navBar";
+import Admin from "./pages/admin";
+import Campaigns from "./pages/campaigns";
+import Home from "./pages/home";
+import MyCampaigns from "./pages/myCampaigns";
+// import Profile from "./pages/Profile";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <>
+
+    {/* <Navbar/> */}
+    <nav>
+      <NavBar/>
+    </nav>
+    <Routes>
+    <Route path="/" element = {<Home/>}/>
+    <Route path="/campaigns" element={<Campaigns/>}/>
+    <Route path="/my-campaigns" element={<MyCampaigns/>}/>
+    <Route path="/admin" element={<Admin/>}/>
+
+
+    {/* <Route path="/Create" element={<Create/>} /> */}
+    {/* <Route path="/Profile" element={<Profile/>} /> */}
+  </Routes>
+    </>
   );
 }
 
