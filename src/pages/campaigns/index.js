@@ -1,8 +1,10 @@
 import React from 'react'
+import CreateCampaignRequest from '../../components/createCampaignRequest'
 
 const Campaigns = () => {
   return (
-    <div>Campaigns</div>
+    <CreateCampaignRequest />
+
   )
 }
 
