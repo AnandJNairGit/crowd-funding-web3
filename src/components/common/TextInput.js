@@ -3,7 +3,7 @@ import { Field } from "formik";
 import React from "react";
 
 const TextInput = (props) => {
-  const { name, label, type, error, touched } = props;
+  const { name, label, type, error, touched, multiline } = props;
   const hasError = error && touched;
   return (
     <>
@@ -14,6 +14,8 @@ const TextInput = (props) => {
         label={label}
         type={type}
         variant="outlined"
+        multiline={multiline}
+        rows={multiline?4:0}
         color="primary"
         error={hasError}
         helperText={hasError ? error : null}
