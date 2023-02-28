@@ -2,43 +2,27 @@ import { Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useContext, useEffect, useState } from "react";
 import { ContractContext } from "../../../App";
+import BackdropProgress from "../../../components/common/BackdropProgress";
+import { getCampaignsMetadata } from "../../../helpers/getCampaignsMetadata";
 import { getMetaData } from "../../../services/pinata";
 import PendingCampaignTile from "./PendingCampaignTile";
 
 const CampaignActions = () => {
   const contractContext = useContext(ContractContext);
   const [pendingCampaign, setPendingCampaign] = useState();
-  const { contract } = contractContext;
-  const test = async () => {
-    // console.log("pending contracts-------------->", contract);
-    const campaigns = await contract.getPendingCampaigns();
-
-    // console.log("pending contracts ------------------>", campaigns);
-    let campaignsInfo = [];
-    for (let index = 0; index < campaigns.length; index++) {
-      const campaignMetadata = await (
-        await getMetaData(campaigns[index].ipfsUrl)
-      ).data;
-      // console.log(campaignMetadata);
-      const campaignInfo = {
-        id: campaigns[index].id.toNumber(),
-        recepient: campaigns[index].recepient,
-        title: campaignMetadata.campaignTitle,
-        description: campaignMetadata.campaignDescription,
-        requiredFund: campaigns[index].requiredFunding.toNumber(),
-        imageUrl: campaignMetadata.imgUrl,
-        deadline: campaigns[index].deadline.toNumber(),
-        approved: campaigns[index].approved,
-        completed: campaigns[index].completed,
-      };
-      // console.log(campaignInfo);
-      campaignsInfo.push(campaignInfo);
+  const { contract, updateContract } = contractContext;
+  const fetchPendingCampaigns = async () => {
+    try {
+      const campaigns = await contract.getPendingCampaigns();
+      let campaignsInfo = await getCampaignsMetadata(campaigns);
+      console.log(campaignsInfo);
+      setPendingCampaign(campaignsInfo);
+    } catch (error) {
+      await updateContract();
     }
-    console.log(campaignsInfo);
-    setPendingCampaign(campaignsInfo);
   };
   useEffect(() => {
-    test();
+    fetchPendingCampaigns();
   }, []);
 
   return (
@@ -58,10 +42,11 @@ const CampaignActions = () => {
               description={campaign.description}
               imageUrl={campaign.imageUrl}
               id={campaign.id}
+              refreshCampaigns = {fetchPendingCampaigns}
             />
           ))
         ) : (
-          <Typography>loading</Typography>
+          <BackdropProgress open={true} />
         )}
       </Box>
     </>
