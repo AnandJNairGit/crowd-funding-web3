@@ -12,6 +12,7 @@ export default function PendingCampaignTile({
   title,
   description,
   imageUrl,
+  refreshCampaigns,
 }) {
   return (
     <Card sx={{ maxWidth: 345, margin: 2 }}>
@@ -29,7 +30,11 @@ export default function PendingCampaignTile({
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
-          <ApproveCampaignButton campaignTitle={title} campaignId={id} />
+          <ApproveCampaignButton
+            campaignTitle={title}
+            campaignId={id}
+            refreshCampaigns={refreshCampaigns}
+          />
         </CardContent>
       </CardActionArea>
     </Card>
