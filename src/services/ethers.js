@@ -4,7 +4,7 @@ async function getContract(){
     const ethers = require("ethers");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    let contract = new ethers.Contract("0x70E5aBc01d1efDec8A654DA935B65398bfE78E34", CrowdFunding.abi, signer)
+    let contract = new ethers.Contract("0x8091797C9E3E4B10996Cd41615083B6355EA138D", CrowdFunding.abi, signer)
     return contract;
   }
 
