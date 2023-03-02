@@ -1,5 +1,5 @@
 // import { CssBaseline } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import BackdropProgress from "./components/common/BackdropProgress";
@@ -31,6 +31,7 @@ function App() {
           <nav>
             <NavBar />
           </nav>
+          <Box height="65px"/>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/campaigns" element={<Campaigns />} />

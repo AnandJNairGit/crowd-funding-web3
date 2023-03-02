@@ -56,14 +56,19 @@ function NavBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", }}>
       <CssBaseline />
       <AppBar
+   
         component="nav"
         sx={{
           background:
             "linear-gradient(to right, #f25d0e, #ec650b, #e66d0b, #e0730d, #da7911)",
-          position: "static",
+            position: "fixed",
+            top: 0,
+            // zIndex: 1,
+            width: "100%",
+          
         }}
       >
         <Toolbar>
