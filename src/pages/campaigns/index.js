@@ -4,7 +4,7 @@ import { ContractContext } from "../../App";
 import BackdropProgress from "../../components/common/BackdropProgress";
 import CreateCampaignRequest from "../../components/createCampaignRequest";
 import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
-import CampaignTile from "./CampaignTile";
+import CampaignTile from "../../components/common/CampaignTile";
 
 const Campaigns = () => {
   const contract = useContext(ContractContext).contract;
