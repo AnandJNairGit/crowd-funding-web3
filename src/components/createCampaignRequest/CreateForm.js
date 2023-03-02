@@ -8,8 +8,9 @@ import { uploadImageToIPFS, uploadJSONToIPFS } from "../../services/pinata";
 import { Button, Input, TextField } from "@mui/material";
 import getContract from "../../services/ethers";
 import { ContractContext } from "../../App";
+import BackdropProgress from "../common/BackdropProgress";
 
-const CreateForm = () => {
+const CreateForm = ({ closeModal, setProgressOpen }) => {
   const [dateTime, setDateTime] = useState();
   const [image, setImage] = useState();
   const contractContext = useContext(ContractContext);
@@ -32,6 +33,8 @@ const CreateForm = () => {
   const onFormSubmit = async (values) => {
     try {
       if (image && dateTime) {
+        closeModal();
+        setProgressOpen(true);
         const { campaignTitle, campaignDescription, requiredAmount } = values;
         const unixDate = parseInt(
           (new Date(dateTime.$d).getTime() / 1000).toFixed(0)
@@ -42,13 +45,21 @@ const CreateForm = () => {
         console.log("the metadata url is ------------>", metaDataUrl);
         // const contract = await getContract();
         // console.log(contract);
-        await contractContext.contract.createCampaignRequest(metaDataUrl,requiredAmount,unixDate);
+        const transaction =
+          await contractContext.contract.createCampaignRequest(
+            metaDataUrl,
+            requiredAmount,
+            unixDate
+          );
+        await transaction.wait();
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setProgressOpen(false);
     }
   };
-  
+
   const initialValues = {
     campaignTitle: "",
     campaignDescription: "",

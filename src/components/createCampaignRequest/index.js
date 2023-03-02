@@ -1,13 +1,13 @@
-
 import React, { useState } from "react";
 
-
 import CreateForm from "./CreateForm";
-import FloatingButton from "./FloatingButton";
+import FloatingButton from "../common/FloatingButton";
 import ResponsiveModal from "../common/ResponsiveModal";
+import BackdropProgress from "../common/BackdropProgress";
 
 const CreateCampaignRequest = () => {
   const [open, setOpen] = React.useState(false);
+  const [progressOpen, setProgressOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -17,8 +17,6 @@ const CreateCampaignRequest = () => {
     setOpen(false);
   };
 
-
-
   return (
     <>
       <div>
@@ -27,10 +25,14 @@ const CreateCampaignRequest = () => {
           onClose={handleClose}
           title="Create Campaign Request :"
         >
-          <CreateForm />
+          <CreateForm
+            closeModal={handleClose}
+            setProgressOpen={setProgressOpen}
+          />
         </ResponsiveModal>
       </div>
-      <FloatingButton onClick={handleClickOpen} />
+      <FloatingButton onClick={handleClickOpen} title="request campaign" />
+      <BackdropProgress open={progressOpen} />
     </>
   );
 };
