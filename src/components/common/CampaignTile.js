@@ -53,6 +53,7 @@ export default function CampaignTile({ campaignObj, showStatusBadge }) {
         <Typography variant="body2" color="text.secondary">
           {truncate(description, 100)}
         </Typography>
+        {showStatusBadge ? <StatusBadge /> : ""}
       </CardContent>
       <CardActions>
         <Button size="small" onClick={navigateToCampaign}>
