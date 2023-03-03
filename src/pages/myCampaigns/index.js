@@ -34,7 +34,7 @@ const MyCampaigns = () => {
           }}
         >
           {onGoingCampaigns.map((campaign) => (
-            <CampaignTile campaignObj={campaign} />
+            <CampaignTile campaignObj={campaign} showStatusBadge />
           ))}
         </Box>
       ) : (
