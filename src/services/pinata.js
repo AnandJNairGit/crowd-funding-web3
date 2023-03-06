@@ -22,8 +22,7 @@ export const uploadImageToIPFS = async (image) => {
 
       console.log("the pinata response is ------------>", resFile);
 
-      const ImgHash = `https://gateway.pinata.cloud/ipfs/${resFile.data.IpfsHash}`;
-      console.log(ImgHash);
+      const ImgHash = resFile.data.IpfsHash;
       return ImgHash;
     } catch (error) {
       console.log("Error sending File to IPFS: ");
@@ -46,8 +45,8 @@ export const uploadJSONToIPFS = async (jsonData) => {
         },
       });
       console.log("the json response is----------->>>", res);
-      const ipfsUrl = `https://gateway.pinata.cloud/ipfs/${res.data.IpfsHash}`;
-      return ipfsUrl;
+      const metaDataHash = res.data.IpfsHash;
+      return metaDataHash;
     } catch (error) {
       console.log("Error sending json to IPFS: ");
       console.log(error);
@@ -56,7 +55,7 @@ export const uploadJSONToIPFS = async (jsonData) => {
 };
 
 export const getMetaData = async (ipfsURI) => {
-  let metaData = await axios.get(ipfsURI, {
+  let metaData = await axios.get("https://ipfs.moralis.io/ipfs/" + ipfsURI, {
     headers: {
       Accept: "text/plain",
     },
