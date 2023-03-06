@@ -1,6 +1,7 @@
 import { getMetaData } from "../services/pinata";
 
 export const getCampaignsMetadata = async (campaigns) => {
+  // console.log("inside helper function-------->", campaigns);
   try {
     let campaignsInfo = [];
     for (let index = 0; index < campaigns.length; index++) {
@@ -13,6 +14,7 @@ export const getCampaignsMetadata = async (campaigns) => {
         title: campaignMetadata.campaignTitle,
         description: campaignMetadata.campaignDescription,
         requiredFund: campaigns[index].requiredFunding.toNumber(),
+        raisedAmount: campaigns[index].raisedAmount.toNumber(),
         imageUrl: campaignMetadata.imgUrl,
         deadline: campaigns[index].deadline.toNumber(),
         approved: campaigns[index].approved,
@@ -20,7 +22,7 @@ export const getCampaignsMetadata = async (campaigns) => {
       };
       campaignsInfo.push(campaignInfo);
     }
-    console.log(campaignsInfo);
+    // console.log(campaignsInfo);
     return campaignsInfo;
   } catch (error) {
     return [];
