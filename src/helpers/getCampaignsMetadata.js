@@ -16,7 +16,7 @@ export const getCampaignsMetadata = async (campaigns) => {
           description: campaignMetadata.campaignDescription,
           requiredFund: campaigns[index].requiredFunding.toNumber(),
           raisedAmount: campaigns[index].raisedAmount.toNumber(),
-          imageUrl: campaignMetadata.imgUrl,
+          imageUrl: "https://ipfs.moralis.io/ipfs/" + campaignMetadata.imgUrl,
           deadline: campaigns[index].deadline.toNumber(),
           approved: campaigns[index].approved,
           completed: campaigns[index].completed,
