@@ -3,20 +3,25 @@ import { ethers } from "ethers";
 import React, { useContext, useState } from "react";
 import { ContractContext } from "../../App";
 
-const FundForm = ({ id }) => {
+const FundForm = ({ id, setOpenModal, setOpenprogress, refresh }) => {
   const [fund, setFund] = useState(100);
   const [unit, setUnit] = useState(0);
   const contract = useContext(ContractContext).contract;
   const transferfund = async () => {
-    console.log("bdskjgbsjbgjdfjgfdg",contract);
     const value = unit === 0 ? fund : ethers.utils.parseEther(fund.toString());
     try {
+      setOpenModal(false);
+      setOpenprogress(true);
       const transaction = await contract.fundCampaign(id, {
         value: value,
       });
       console.log("Transaction sent:", transaction.hash);
+      await transaction.wait();
     } catch (error) {
       console.error("Error sending transaction:", error);
+    } finally {
+      await refresh();
+      setOpenprogress(false);
     }
   };
 

@@ -14,9 +14,13 @@ import getContract from "./services/ethers";
 export const ContractContext = createContext();
 function App() {
   const [contract, setContract] = useState();
+  const [accountAddress, setAccountAddress] = useState();
 
   const updateContract = async () => {
-    setContract(await getContract());
+    const { contract, accountAddress } = await getContract();
+    console.log(contract, accountAddress);
+    setContract(contract);
+    setAccountAddress(accountAddress);
   };
   useEffect(() => {
     updateContract();
@@ -26,12 +30,16 @@ function App() {
     <>
       {contract ? (
         <ContractContext.Provider
-          value={{ contract: contract, updateContract: updateContract }}
+          value={{
+            contract: contract,
+            updateContract: updateContract,
+            accountAddress: accountAddress,
+          }}
         >
           <nav>
             <NavBar />
           </nav>
-          <Box height="65px"/>
+          <Box height="65px" />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/campaigns" element={<Campaigns />} />

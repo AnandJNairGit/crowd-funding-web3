@@ -7,16 +7,39 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { truncate } from "../../helpers/string";
 import { useNavigate } from "react-router-dom";
+import { Chip } from "@mui/material";
+import { Close, Done } from "@mui/icons-material";
 
-export default function CampaignTile({ campaignObj }) {
+export default function CampaignTile({ campaignObj, showStatusBadge }) {
   const { id, imageUrl, title, description } = campaignObj;
   const navigate = useNavigate();
   const navigateToCampaign = () => {
     navigate(`/campaigns/${id}`, { state: campaignObj });
   };
+  const StatusBadge = () => {
+    return (
+      <>
+        {campaignObj.approved ? (
+          <Chip
+            sx={{ marginTop: 1 }}
+            icon={<Done />}
+            label="Approved"
+            color="success"
+          />
+        ) : (
+          <Chip
+            sx={{ marginTop: 1 }}
+            icon={<Close />}
+            label="Not Approved"
+            color="error"
+          />
+        )}
+      </>
+    );
+  };
 
   return (
-    <Card sx={{ width: 350, height: 320, margin: 5 }}>
+    <Card sx={{ width: 350, height: 355, margin: 5 }}>
       <CardMedia
         component="img"
         alt="green iguana"
@@ -30,6 +53,7 @@ export default function CampaignTile({ campaignObj }) {
         <Typography variant="body2" color="text.secondary">
           {truncate(description, 100)}
         </Typography>
+        {showStatusBadge ? <StatusBadge /> : ""}
       </CardContent>
       <CardActions>
         <Button size="small" onClick={navigateToCampaign}>

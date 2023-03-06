@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { ContractContext } from "../../App";
 import BackdropProgress from "../../components/common/BackdropProgress";
-import FloatingButton from "../../components/common/FloatingButton";
 import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
 import CampaignBanner from "./CampaignBanner";
 import FundCampaign from "./FundCampaign";
@@ -11,7 +10,9 @@ import FundersList from "./FundersList";
 import Numbers from "./Numbers";
 
 const Campaign = () => {
-  const contract = useContext(ContractContext).contract;
+
+  const { contract, accountAddress } = useContext(ContractContext);
+
   const location = useLocation();
   const [campaign, setCampaign] = useState();
   const [funders, setFunders] = useState();
@@ -28,7 +29,7 @@ const Campaign = () => {
     console.log(campaign);
     const funders = await contract.getCampaignFunders(id);
     let fundersList = [];
-    console.log("the funders are ----------->", funders[0]);
+
     for (let funder = 0; funder < funders.length; funder++) {
       fundersList.push({
         account: funders[funder].account,
@@ -58,7 +59,14 @@ const Campaign = () => {
         title={campaign.title}
         description={campaign.description}
       />
-      <FundCampaign campaignId={id} />
+
+      {accountAddress == campaign.recepient ? (
+        ""
+      ) : (
+        <FundCampaign campaignId={id} refresh={getCampaignObject}/>
+      )}
+
+
       <Numbers
         requiredAmount={campaign.requiredFund}
         raisedAmount={campaign.raisedAmount}
