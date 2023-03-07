@@ -5,7 +5,7 @@ import Tab from "@mui/material/Tab";
 import { Container } from "@mui/system";
 import { Typography } from "@mui/material";
 import CampaignActions from "./campaignAction/CampaignActions";
-import ContractSettings from "./ContractSettings/ContractSettings";
+import ContractSettings from "./ContractSettings";
 
 export default function CenteredTabs() {
   const [value, setValue] = React.useState(0);

@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import BackdropProgress from "../../components/common/BackdropProgress";
 import FloatingButton from "../../components/common/FloatingButton";
 import ResponsiveModal from "../../components/common/ResponsiveModal";
-import FundForm from "./FundForm";
+import FundForm from "../../components/common/FundForm";
 import { ContractContext } from "../../App";
 
 const FundCampaign = ({ campaignId, refresh }) => {
