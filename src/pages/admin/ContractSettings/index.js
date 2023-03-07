@@ -1,8 +1,27 @@
-import { Box, Button, Container, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, Typography } from "@mui/material";
 import React, { createContext, useState } from "react";
 import BackdropProgress from "../../../components/common/BackdropProgress";
 import Centered from "../../../components/common/Centered";
 import MinimumContribution from "./MinimumContribution";
+
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import CrowdFunding from "./CrowdFunding";
+
+const AccordionContent = ({ summary, children }) => {
+  return (
+    <>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography>{summary}</Typography>
+        </AccordionSummary>
+        <AccordionDetails>{children}</AccordionDetails>
+      </Accordion>
+    </>
+  );
+};
 
 export const ProgressContext = createContext();
 const ContractSettings = () => {
@@ -10,8 +29,19 @@ const ContractSettings = () => {
   return (
     <>
       <ProgressContext.Provider value={setOpenProgress}>
-        <Container>
-          <MinimumContribution />
+        <Container sx={{ marginTop: 10 }}>
+          <AccordionContent summary="Minimum Contribution">
+            <MinimumContribution />
+          </AccordionContent>
+          <AccordionContent summary="Crowd Funding">
+            <CrowdFunding />
+          </AccordionContent>
+          <AccordionContent summary="Campaign Creation">
+          <CrowdFunding />
+          </AccordionContent>
+          <AccordionContent summary="Admins">
+            <MinimumContribution />
+          </AccordionContent>
         </Container>
       </ProgressContext.Provider>
 
