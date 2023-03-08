@@ -9,6 +9,8 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CrowdFunding from "./CrowdFunding";
+import CampaignCreation from "./CampaignCreation";
+import AdminAccounts from "./adminAccounts";
 
 const AccordionContent = ({ summary, children }) => {
   return (
@@ -37,10 +39,10 @@ const ContractSettings = () => {
             <CrowdFunding />
           </AccordionContent>
           <AccordionContent summary="Campaign Creation">
-          <CrowdFunding />
+            <CampaignCreation />
           </AccordionContent>
           <AccordionContent summary="Admins">
-            <MinimumContribution />
+            <AdminAccounts />
           </AccordionContent>
         </Container>
       </ProgressContext.Provider>
