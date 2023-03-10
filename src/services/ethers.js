@@ -6,7 +6,7 @@ async function getContract() {
   const signer = provider.getSigner();
   const accountAddress = await signer.getAddress();
   let contract = new ethers.Contract(
-    "0xCA735871a7BE0132A02Df30f0b6110CD279ECe9C",
+    "0xFaa05Fc978E11D8f4465dbA2BC1E9629D2C8A5d3",
     CrowdFunding.abi,
     signer
   );
