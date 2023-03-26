@@ -8,7 +8,7 @@ async function getContract() {
 
   // Create the contract instance
   const contract = new ethers.Contract(
-    "0xFaa05Fc978E11D8f4465dbA2BC1E9629D2C8A5d3",
+    "0x527E4987b3A82B5de475D28DFB34E1961a0353C2",
     CrowdFunding.abi,
     signer
   );

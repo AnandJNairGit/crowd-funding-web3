@@ -1,5 +1,4 @@
-// import { CssBaseline } from "@mui/material";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { createContext, useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Link, Route } from "react-router-dom";
 import BackdropProgress from "./components/common/BackdropProgress";
@@ -11,7 +10,6 @@ import Campaigns from "./pages/campaigns";
 import Home from "./pages/home";
 import MyCampaigns from "./pages/myCampaigns";
 import getContract from "./services/ethers";
-
 export const ContractContext = createContext();
 export const SnackbarContext = createContext();
 
@@ -19,27 +17,53 @@ function App() {
   const [contract, setContract] = useState();
   const [contractConfig, setContractConfig] = useState();
   const [accountAddress, setAccountAddress] = useState();
-  const snackbarInitialProps = {
+
+  const [snackbarProps, setSnackbarProps] = useState({
     open: false,
     message: "",
     type: "info",
-  };
-  const [snackbarProps, setSnackbarProps] = useState(snackbarInitialProps);
+  });
+
   const onSnackbarClose = () => {
-    setSnackbarProps(snackbarInitialProps);
+    console.log("INSIDE ON SNACKBAR CLOSE");
+    setSnackbarProps({
+      open: false,
+      message: "",
+      type: "info",
+    });
   };
 
   const updateContract = async () => {
-    const { contract, accountAddress,contractConfig } = await getContract();
-
-    console.log(contract, accountAddress);
-
+    const { contract, accountAddress, contractConfig } = await getContract();
     setContract(contract);
     setAccountAddress(accountAddress);
-    setContractConfig(contractConfig)
+    setContractConfig(contractConfig);
   };
+
+  const onChangeInWallet = () => {
+    window.ethereum.on("chainChanged", () => {
+      window.location.reload();
+    });
+
+    window.ethereum.on("accountsChanged", () => {
+      window.location.reload();
+    });
+  };
+
   useEffect(() => {
-    updateContract();
+    const init = async () => {
+      const { contract, accountAddress, contractConfig } = await getContract();
+      setContract(contract);
+      setAccountAddress(accountAddress);
+      setContractConfig(contractConfig);
+
+      if (contract) {
+        contract.on("updateContractInstance", updateContract);
+      }
+      onChangeInWallet();
+    };
+
+    init();
   }, []);
 
   return (
@@ -48,10 +72,10 @@ function App() {
         <SnackbarContext.Provider value={setSnackbarProps}>
           <ContractContext.Provider
             value={{
-              contract: contract,
-              updateContract: updateContract,
-              accountAddress: accountAddress,
-              contractConfig: contractConfig
+              contract,
+              updateContract,
+              accountAddress,
+              contractConfig,
             }}
           >
             <nav>
@@ -63,14 +87,21 @@ function App() {
               <Route path="/campaigns" element={<Campaigns />} />
               <Route path="/campaigns/:id" element={<Campaign />} />
               <Route path="/my-campaigns" element={<MyCampaigns />} />
-              <Route path="/admin" element={<Admin />} />
+              {contractConfig.isAdmin || contractConfig.hasAdminAccess ? (
+                <Route path="/admin" element={<Admin />} />
+              ) : (
+                ""
+              )}
             </Routes>
           </ContractContext.Provider>
         </SnackbarContext.Provider>
       ) : (
         <BackdropProgress open={true} />
       )}
-      <SnackNotification {...snackbarProps} handleClose={onSnackbarClose} />
+      <SnackNotification
+        {...snackbarProps}
+        handleClose={onSnackbarClose}
+      />
     </>
   );
 }

@@ -10,7 +10,6 @@ import FundersList from "./FundersList";
 import Numbers from "./Numbers";
 
 const Campaign = () => {
-
   const { contract, accountAddress } = useContext(ContractContext);
 
   const location = useLocation();
@@ -60,12 +59,13 @@ const Campaign = () => {
         description={campaign.description}
       />
 
-      {accountAddress == campaign.recepient ? (
-        ""
+      {accountAddress != campaign.recepient &&
+      campaign.approved &&
+      !campaign.completed ? (
+        <FundCampaign campaignId={id} refresh={getCampaignObject} />
       ) : (
-        <FundCampaign campaignId={id} refresh={getCampaignObject}/>
+        ""
       )}
-
 
       <Numbers
         requiredAmount={campaign.requiredFund}
