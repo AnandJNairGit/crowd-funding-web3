@@ -33,7 +33,7 @@
       ],
       "name": "createCampaignRequest",
       "outputs": [],
-      "stateMutability": "nonpayable",
+      "stateMutability": "payable",
       "type": "function"
     },
     {
@@ -65,6 +65,19 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_campaignId",
+          "type": "uint256"
+        }
+      ],
+      "name": "refundCampaign",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "address",
           "name": "account",
           "type": "address"
@@ -79,7 +92,25 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_campaignId",
+          "type": "uint256"
+        }
+      ],
+      "name": "transactRaisedAmount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "_minimumContribution",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_creationPrice",
           "type": "uint256"
         }
       ],
@@ -115,6 +146,19 @@
     {
       "inputs": [
         {
+          "internalType": "uint256",
+          "name": "_creationPrice",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateCreationPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "bool",
           "name": "status",
           "type": "bool"
@@ -134,6 +178,13 @@
         }
       ],
       "name": "updateMinimumContribution",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawCreationAmount",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -242,6 +293,24 @@
           "internalType": "uint256",
           "name": "raisedAmount",
           "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "amountReceived",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "creationPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -274,6 +343,72 @@
           "internalType": "address[]",
           "name": "",
           "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_campaignId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getCampaignById",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "recepient",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "requiredFunding",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "ipfsUrl",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "approved",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "completed",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "raisedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct CrowdFunding.Campaign",
+          "name": "",
+          "type": "tuple"
         }
       ],
       "stateMutability": "view",
@@ -355,6 +490,11 @@
               "internalType": "uint256",
               "name": "raisedAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
             }
           ],
           "internalType": "struct CrowdFunding.Campaign[]",
@@ -416,6 +556,11 @@
               "internalType": "uint256",
               "name": "raisedAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
             }
           ],
           "internalType": "struct CrowdFunding.Campaign",
@@ -471,72 +616,16 @@
               "internalType": "uint256",
               "name": "raisedAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
             }
           ],
           "internalType": "struct CrowdFunding.Campaign[]",
           "name": "",
           "type": "tuple[]"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_campaignId",
-          "type": "uint256"
-        }
-      ],
-      "name": "getOnGoingCampaignById",
-      "outputs": [
-        {
-          "components": [
-            {
-              "internalType": "uint256",
-              "name": "id",
-              "type": "uint256"
-            },
-            {
-              "internalType": "address",
-              "name": "recepient",
-              "type": "address"
-            },
-            {
-              "internalType": "uint256",
-              "name": "requiredFunding",
-              "type": "uint256"
-            },
-            {
-              "internalType": "string",
-              "name": "ipfsUrl",
-              "type": "string"
-            },
-            {
-              "internalType": "uint256",
-              "name": "deadline",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "approved",
-              "type": "bool"
-            },
-            {
-              "internalType": "bool",
-              "name": "completed",
-              "type": "bool"
-            },
-            {
-              "internalType": "uint256",
-              "name": "raisedAmount",
-              "type": "uint256"
-            }
-          ],
-          "internalType": "struct CrowdFunding.Campaign",
-          "name": "",
-          "type": "tuple"
         }
       ],
       "stateMutability": "view",
@@ -587,6 +676,11 @@
               "internalType": "uint256",
               "name": "raisedAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
             }
           ],
           "internalType": "struct CrowdFunding.Campaign[]",
@@ -642,6 +736,71 @@
               "internalType": "uint256",
               "name": "raisedAmount",
               "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct CrowdFunding.Campaign[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getRefundableCampaigns",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "recepient",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "requiredFunding",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "ipfsUrl",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "deadline",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "approved",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "completed",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "raisedAmount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "amountReceived",
+              "type": "bool"
             }
           ],
           "internalType": "struct CrowdFunding.Campaign[]",
@@ -668,6 +827,19 @@
     {
       "inputs": [],
       "name": "minimumContribution",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "raisedCreationAmount",
       "outputs": [
         {
           "internalType": "uint256",
