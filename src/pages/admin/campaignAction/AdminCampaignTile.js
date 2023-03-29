@@ -5,15 +5,15 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, Chip } from "@mui/material";
 import { Done } from "@mui/icons-material";
-import ApproveCampaignButton from "./ApproveCampaignButton";
+import ApproveCampaignButton from "./CampaignActionButton";
 
-export default function PendingCampaignTile({
-  id,
-  title,
-  description,
-  imageUrl,
+export default function AdminCampaignTile({
+  campaignObj,
   refreshCampaigns,
+  action,
+  actionBtnName,
 }) {
+  const { id, title, description, imageUrl } = campaignObj;
   return (
     <Card sx={{ maxWidth: 345, margin: 2 }}>
       <CardActionArea>
@@ -30,11 +30,13 @@ export default function PendingCampaignTile({
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
-          <ApproveCampaignButton
-            campaignTitle={title}
-            campaignId={id}
+          {actionBtnName?          <ApproveCampaignButton
+            btnName={actionBtnName}
+            onClick={action}
+            campaignObj={campaignObj}
             refreshCampaigns={refreshCampaigns}
-          />
+          />:""}
+
         </CardContent>
       </CardActionArea>
     </Card>

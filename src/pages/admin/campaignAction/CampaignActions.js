@@ -1,54 +1,26 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
-import React, { useContext, useEffect, useState } from "react";
-import { ContractContext } from "../../../App";
-import BackdropProgress from "../../../components/common/BackdropProgress";
-import { getCampaignsMetadata } from "../../../helpers/getCampaignsMetadata";
-import { getMetaData } from "../../../services/pinata";
-import PendingCampaignTile from "./PendingCampaignTile";
+import React, { useState } from "react";
+import Filter from "./Filter";
+import PendingCampaigns from "./PendingCampaigns";
+import RefundableCampaigns from "./RefundableCampaigns";
+import CompletedCampaigns from "./CompletedCampaigns";
 
 const CampaignActions = () => {
-  const contractContext = useContext(ContractContext);
-  const [pendingCampaign, setPendingCampaign] = useState();
-  const { contract, updateContract } = contractContext;
-  const fetchPendingCampaigns = async () => {
-    try {
-      const campaigns = await contract.getPendingCampaigns();
-      let campaignsInfo = await getCampaignsMetadata(campaigns);
-      console.log(campaignsInfo);
-      setPendingCampaign(campaignsInfo);
-    } catch (error) {
-      await updateContract();
-    }
+  const [filter, setFilter] = useState(0);
+  const onFilterChange = (value) => {
+    console.log(value);
+    setFilter(value);
   };
-  useEffect(() => {
-    fetchPendingCampaigns();
-  }, []);
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          justifyContent: "space-around",
-        }}
-      >
-        {pendingCampaign ? (
-          pendingCampaign.map((campaign) => (
-            <PendingCampaignTile
-              title={campaign.title}
-              description={campaign.description}
-              imageUrl={campaign.imageUrl}
-              id={campaign.id}
-              refreshCampaigns = {fetchPendingCampaigns}
-            />
-          ))
-        ) : (
-          <BackdropProgress open={true} />
-        )}
-      </Box>
+      <Filter onChange={onFilterChange} />
+      {filter == 0 ? (
+        <PendingCampaigns />
+      ) : filter == 1 ? (
+        <CompletedCampaigns />
+      ) : (
+        <RefundableCampaigns />
+      )}
     </>
   );
 };

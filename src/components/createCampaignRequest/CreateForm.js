@@ -12,7 +12,7 @@ import BackdropProgress from "../common/BackdropProgress";
 const CreateForm = ({ closeModal, setProgressOpen }) => {
   const [dateTime, setDateTime] = useState();
   const [image, setImage] = useState();
-  const contractContext = useContext(ContractContext);
+  const { contract, contractConfig } = useContext(ContractContext);
   const setSnackbarProps = useContext(SnackbarContext);
   // console.log(contract);
 
@@ -43,12 +43,12 @@ const CreateForm = ({ closeModal, setProgressOpen }) => {
         const imgUrl = await uploadImageToIPFS(image);
         const jsonData = { campaignTitle, campaignDescription, imgUrl };
         const metaDataUrl = await uploadJSONToIPFS(jsonData);
-        const transaction =
-          await contractContext.contract.createCampaignRequest(
-            metaDataUrl,
-            requiredAmount,
-            unixDate
-          );
+        const transaction = await contract.createCampaignRequest(
+          metaDataUrl,
+          requiredAmount,
+          unixDate,
+          { value: contractConfig.creationPrice }
+        );
         await transaction.wait();
         setSnackbarProps({
           open: true,
