@@ -16,6 +16,8 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { ContractContext } from "../../App";
+import { Avatar, Chip } from "@mui/material";
+import { hover } from "@testing-library/user-event/dist/hover";
 
 const drawerWidth = 240;
 
@@ -40,9 +42,23 @@ function NavBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        KAKA.
-      </Typography>
+      <a
+        href="https://github.com/AnandJNairGit/crowd-funding-web3"
+        target="_blank"
+        style={{ textDecoration: "none" }}
+      >
+        <Chip
+          sx={{ cursor: "pointer", my: 2 }}
+          avatar={
+            <Avatar
+              alt="Natacha"
+              src="https://pbs.twimg.com/profile_images/1559112808863715328/tbvr9OMS_400x400.jpg"
+            />
+          }
+          label="Crowd Funding"
+          variant="filled"
+        />
+      </a>
       <Divider />
       <List>
         {navItems.map((item, index) => (
@@ -71,7 +87,7 @@ function NavBar(props) {
         component="nav"
         sx={{
           background:
-            "linear-gradient(to right, #f25d0e, #ec650b, #e66d0b, #e0730d, #da7911)",
+            "linear-gradient(90deg, rgba(14,9,110,1) 21%, rgba(108,99,255,1) 59%, rgba(31,192,224,1) 90%)",
           position: "fixed",
           top: 0,
           // zIndex: 1,
@@ -88,13 +104,26 @@ function NavBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-          >
-            KAKA.!
-          </Typography>
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <a
+              href="https://github.com/AnandJNairGit/crowd-funding-web3"
+              target="_blank"
+              style={{ textDecoration: "none" }}
+            >
+              <Chip
+                sx={{ cursor: "pointer" }}
+                avatar={
+                  <Avatar
+                    alt="Natacha"
+                    src="https://pbs.twimg.com/profile_images/1559112808863715328/tbvr9OMS_400x400.jpg"
+                  />
+                }
+                label="Crowd Funding"
+                variant="filled"
+              />
+            </a>
+          </Box>
+
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navItems.map((item, index) => (
               <Button
