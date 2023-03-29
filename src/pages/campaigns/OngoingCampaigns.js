@@ -5,6 +5,7 @@ import BackdropProgress from "../../components/common/BackdropProgress";
 import CreateCampaignRequest from "../../components/createCampaignRequest";
 import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
 import CampaignTile from "../../components/common/CampaignTile";
+import NotFound from "../../components/common/NotFound";
 
 const OnGoingCampaigns = () => {
   const contract = useContext(ContractContext).contract;
@@ -25,18 +26,22 @@ const OnGoingCampaigns = () => {
   return (
     <>
       {onGoingCampaigns ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
-          {onGoingCampaigns.map((campaign) => (
-            <CampaignTile campaignObj={campaign} />
-          ))}
-        </Box>
+        onGoingCampaigns.length > 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            {onGoingCampaigns.map((campaign) => (
+              <CampaignTile campaignObj={campaign} />
+            ))}
+          </Box>
+        ) : (
+          <NotFound message="No On-Going Campaigns Found" />
+        )
       ) : (
         <BackdropProgress open={true} />
       )}

@@ -2,6 +2,7 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { ContractContext } from "../../../App";
 import Centered from "../../../components/common/Centered";
+import NotFound from "../../../components/common/NotFound";
 import { getCampaignsMetadata } from "../../../helpers/getCampaignsMetadata";
 import AdminCampaignTile from "./AdminCampaignTile";
 
@@ -26,7 +27,6 @@ const CompletedCampaigns = () => {
       const transaction = await contract.transactRaisedAmount(id);
       await transaction.wait();
     } catch (error) {
-
       console.log("transaction error-------->", error);
     }
   };
@@ -44,14 +44,18 @@ const CompletedCampaigns = () => {
       }}
     >
       {completedCampaign ? (
-        completedCampaign.map((campaign) => (
-          <AdminCampaignTile
-            campaignObj={campaign}
-            refreshCampaigns={fetchCompletedCampaigns}
-            action={transactAmpount}
-            actionBtnName= {campaign.amountReceived ? false:"Transact"}
-          />
-        ))
+        completedCampaign.length > 0 ? (
+          completedCampaign.map((campaign) => (
+            <AdminCampaignTile
+              campaignObj={campaign}
+              refreshCampaigns={fetchCompletedCampaigns}
+              action={transactAmpount}
+              actionBtnName={campaign.amountReceived ? false : "Transact"}
+            />
+          ))
+        ) : (
+          <NotFound message="No Campaigns Are Completed Yet" />
+        )
       ) : (
         // <BackdropProgress open={true} />
         <Centered>

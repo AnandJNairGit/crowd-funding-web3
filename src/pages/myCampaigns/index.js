@@ -5,38 +5,43 @@ import BackdropProgress from "../../components/common/BackdropProgress";
 import CreateCampaignRequest from "../../components/createCampaignRequest";
 import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
 import CampaignTile from "../../components/common/CampaignTile";
+import NotFound from "../../components/common/NotFound";
 
 const MyCampaigns = () => {
   const contract = useContext(ContractContext).contract;
-  const [onGoingCampaigns, setOnGoingCampaigns] = useState();
+  const [myCampaigns, setMyCampaigns] = useState();
 
-  const fetchOnGoingCampaigns = async () => {
+  const fetchmyCampaigns = async () => {
     const campaigns = await contract.getMycampaigns();
     const campaignsMetadata = await getCampaignsMetadata(campaigns);
-    setOnGoingCampaigns(campaignsMetadata);
-    console.log("the ongoing campaigns are-----------> ", onGoingCampaigns);
+    setMyCampaigns(campaignsMetadata);
+    console.log("the ongoing campaigns are-----------> ", myCampaigns);
   };
   useEffect(() => {
-    fetchOnGoingCampaigns();
+    fetchmyCampaigns();
 
     return () => {};
   }, []);
 
   return (
     <>
-      {onGoingCampaigns ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
-          {onGoingCampaigns.map((campaign) => (
-            <CampaignTile campaignObj={campaign} showStatusBadge />
-          ))}
-        </Box>
+      {myCampaigns ? (
+        myCampaigns.length > 0 ? (
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "space-around",
+            }}
+          >
+            {myCampaigns.map((campaign) => (
+              <CampaignTile campaignObj={campaign} showStatusBadge />
+            ))}
+          </Box>
+        ) : (
+          <NotFound message="You Don't own any Campaigns" />
+        )
       ) : (
         <BackdropProgress open={true} />
       )}
