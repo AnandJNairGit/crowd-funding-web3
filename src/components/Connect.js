@@ -1,10 +1,17 @@
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-const Connect = () => {
+const Connect = ({ setSnackbarProps }) => {
+  console.log("the dddddd", setSnackbarProps);
   const [isConnected, setIsConnected] = useState(true);
 
   useEffect(() => {
+    // try {
+
+    // } catch (error) {
+
+    // }
+
     if (typeof window.ethereum !== "undefined") {
       // Metamask is installed
       window.ethereum
@@ -17,7 +24,9 @@ const Connect = () => {
             setIsConnected(false);
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log("the error is---------> ", err);
+        });
 
       // Listen for account changes
       window.ethereum.on("accountsChanged", (accounts) => {
@@ -28,11 +37,18 @@ const Connect = () => {
           setIsConnected(false);
         }
       });
+    } else {
+      setIsConnected(false);
+
     }
   }, []);
 
   const handleConnect = () => {
-    window.ethereum.request({ method: "eth_requestAccounts" });
+    try {
+      window.ethereum.request({ method: "eth_requestAccounts" });
+    } catch (error) {
+      window.alert("Please Install Metamask")
+    }
   };
 
   return (
