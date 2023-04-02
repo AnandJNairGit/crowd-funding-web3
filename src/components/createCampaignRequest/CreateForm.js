@@ -6,14 +6,14 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { uploadImageToIPFS, uploadJSONToIPFS } from "../../services/pinata";
 import { Button, Input, TextField } from "@mui/material";
-import getContract from "../../services/ethers";
-import { ContractContext } from "../../App";
+import { ContractContext, SnackbarContext } from "../../App";
 import BackdropProgress from "../common/BackdropProgress";
 
 const CreateForm = ({ closeModal, setProgressOpen }) => {
   const [dateTime, setDateTime] = useState();
   const [image, setImage] = useState();
   const contractContext = useContext(ContractContext);
+  const setSnackbarProps = useContext(SnackbarContext);
   // console.log(contract);
 
   const onDateTimeChanged = (newDateTime) => {
@@ -39,12 +39,10 @@ const CreateForm = ({ closeModal, setProgressOpen }) => {
         const unixDate = parseInt(
           (new Date(dateTime.$d).getTime() / 1000).toFixed(0)
         );
+        console.log("unix date--------->", unixDate);
         const imgUrl = await uploadImageToIPFS(image);
         const jsonData = { campaignTitle, campaignDescription, imgUrl };
         const metaDataUrl = await uploadJSONToIPFS(jsonData);
-        console.log("the metadata url is ------------>", metaDataUrl);
-        // const contract = await getContract();
-        // console.log(contract);
         const transaction =
           await contractContext.contract.createCampaignRequest(
             metaDataUrl,
@@ -52,6 +50,11 @@ const CreateForm = ({ closeModal, setProgressOpen }) => {
             unixDate
           );
         await transaction.wait();
+        setSnackbarProps({
+          open: true,
+          message: "Campaign created successfully",
+          type: "success",
+        });
       }
     } catch (error) {
       console.log(error);

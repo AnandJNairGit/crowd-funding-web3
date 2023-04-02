@@ -15,12 +15,21 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { ContractContext } from "../../App";
 
 const drawerWidth = 240;
-const navItems = ["Home", "Campaigns", "My Campaigns", "Admin"];
-const navRoutes = ["", "campaigns", "my-campaigns", "admin"];
 
 function NavBar(props) {
+  const { isAdmin, hasAdminAccess } =
+    React.useContext(ContractContext).contractConfig;
+  const navItems =
+    isAdmin || hasAdminAccess
+      ? ["Home", "Campaigns", "My Campaigns", "Admin"]
+      : ["Home", "Campaigns", "My Campaigns"];
+  const navRoutes =
+    isAdmin || hasAdminAccess
+      ? ["", "campaigns", "my-campaigns", "admin"]
+      : ["", "campaigns", "my-campaigns", "admin"];
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const navigate = useNavigate();
@@ -56,19 +65,17 @@ function NavBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "flex", }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-   
         component="nav"
         sx={{
           background:
             "linear-gradient(to right, #f25d0e, #ec650b, #e66d0b, #e0730d, #da7911)",
-            position: "fixed",
-            top: 0,
-            // zIndex: 1,
-            width: "100%",
-          
+          position: "fixed",
+          top: 0,
+          // zIndex: 1,
+          width: "100%",
         }}
       >
         <Toolbar>

@@ -1,48 +1,31 @@
-import { Box } from "@mui/material";
-import React, { useContext, useEffect, useState } from "react";
-import { ContractContext } from "../../App";
-import BackdropProgress from "../../components/common/BackdropProgress";
-import CreateCampaignRequest from "../../components/createCampaignRequest";
-import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
-import CampaignTile from "../../components/common/CampaignTile";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import OnGoingCampaigns from "./OngoingCampaigns";
+import CompletedCampaigns from "./CompletedCampaigns";
 
-const Campaigns = () => {
-  const contract = useContext(ContractContext).contract;
-  const [onGoingCampaigns, setOnGoingCampaigns] = useState();
+export default function CenteredTabs() {
+  const [value, setValue] = React.useState(0);
 
-  const fetchOnGoingCampaigns = async () => {
-    const campaigns = await contract.getOnGoingCampaigns();
-    const campaignsMetadata = await getCampaignsMetadata(campaigns);
-    setOnGoingCampaigns(campaignsMetadata);
-    console.log("the ongoing campaigns are-----------> ", onGoingCampaigns);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
-  useEffect(() => {
-    fetchOnGoingCampaigns();
-
-    return () => {};
-  }, []);
 
   return (
     <>
-      {onGoingCampaigns ? (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
+      <Box sx={{ width: "100%", bgcolor: "#0f0802", marginTop: "1px" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          centered
+          variant="fullWidth"
         >
-          {onGoingCampaigns.map((campaign) => (
-            <CampaignTile campaignObj={campaign} />
-          ))}
-        </Box>
-      ) : (
-        <BackdropProgress open={true} />
-      )}
-      <CreateCampaignRequest />
+          <Tab label="On Going Campaigns" />
+          <Tab label="Completed Campaigns" />
+        </Tabs>
+      </Box>
+      {value == 0 ? <OnGoingCampaigns /> : <CompletedCampaigns />}
     </>
   );
-};
-
-export default Campaigns;
+}
