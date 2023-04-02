@@ -19,7 +19,8 @@ const Campaign = () => {
   const { id } = useParams();
 
   const getCampaignObject = async () => {
-    const campaign = await contract.getOnGoingCampaignById(id);
+    console.log("inside get campaign obj");
+    const campaign = await contract.getCampaignById(id);
     const campaignMetadata = await getCampaignsMetadata([campaign]);
     setCampaign(campaignMetadata[0]);
   };
@@ -32,7 +33,7 @@ const Campaign = () => {
     for (let funder = 0; funder < funders.length; funder++) {
       fundersList.push({
         account: funders[funder].account,
-        amount: funders[funder].amount.toNumber(),
+        amount: funders[funder].amount.toString(),
       });
     }
     setFunders(fundersList);

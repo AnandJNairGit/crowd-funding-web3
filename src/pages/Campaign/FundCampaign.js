@@ -14,31 +14,39 @@ const FundCampaign = ({ campaignId, refresh }) => {
   const setSnackbarProps = useContext(SnackbarContext);
 
   const transferfund = async (value) => {
-    try {
-      setOpenModal(false);
-      setOpenProgress(true);
-      console.log("inside transfer fund");
-      const transaction = await contract.fundCampaign(campaignId, {
-        value,
-      });
-      console.log("Transaction sent:", transaction.hash);
-      await transaction.wait();
+    if (value > contractConfig.minimumContribution) {
+      try {
+        setOpenModal(false);
+        setOpenProgress(true);
+        console.log("inside transfer fund");
+        const transaction = await contract.fundCampaign(campaignId, {
+          value,
+        });
+        console.log("Transaction sent:", transaction.hash);
+        await transaction.wait();
+        setSnackbarProps({
+          open: true,
+          message:
+            "Thank you for your support! Your contribution is helping us bring our project to life.",
+          type: "success",
+        });
+      } catch (error) {
+        console.error("Error sending transaction:", error);
+        setSnackbarProps({
+          open: true,
+          message: "Crowdfunding campaign was unsuccessful",
+          type: "error",
+        });
+      } finally {
+        await refresh();
+        setOpenProgress(false);
+      }
+    } else {
       setSnackbarProps({
         open: true,
-        message:
-          "Thank you for your support! Your contribution is helping us bring our project to life.",
-        type: "success",
+        message: `please contribute atleast ${contractConfig.minimumContribution} WEI`,
+        type: "info",
       });
-    } catch (error) {
-      console.error("Error sending transaction:", error);
-      setSnackbarProps({
-        open: true,
-        message: "Crowdfunding campaign was unsuccessful",
-        type: "error",
-      });
-    } finally {
-      await refresh();
-      setOpenProgress(false);
     }
   };
 

@@ -3,6 +3,7 @@ import React from "react";
 import { ethers } from "ethers";
 
 const weiToEther = (wei) => {
+  console.log("the wei is--------->", wei);
   const requiredAmountWei = ethers.BigNumber.from(`${wei}`);
   return ethers.utils.formatEther(requiredAmountWei);
 };
