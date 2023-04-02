@@ -97,7 +97,7 @@ function App() {
           </ContractContext.Provider>
         </SnackbarContext.Provider>
       ) : (
-        <Connect />
+        <Connect/>
       )}
       <SnackNotification
         {...snackbarProps}
