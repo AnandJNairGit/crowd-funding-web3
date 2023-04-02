@@ -58,6 +58,7 @@ const Campaign = () => {
         image={campaign.imageUrl}
         title={campaign.title}
         description={campaign.description}
+        recepient={campaign.recepient}
       />
 
       {accountAddress != campaign.recepient &&

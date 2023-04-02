@@ -3,9 +3,10 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Chip } from "@mui/material";
+import { Button, CardActionArea, CardActions, Chip } from "@mui/material";
 import { Done } from "@mui/icons-material";
-import ApproveCampaignButton from "./CampaignActionButton";
+import CampaignActionButton from "./CampaignActionButton";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminCampaignTile({
   campaignObj,
@@ -14,6 +15,8 @@ export default function AdminCampaignTile({
   actionBtnName,
 }) {
   const { id, title, description, imageUrl } = campaignObj;
+  const navigate = useNavigate();
+
   return (
     <Card sx={{ maxWidth: 345, margin: 2 }}>
       <CardActionArea>
@@ -30,14 +33,26 @@ export default function AdminCampaignTile({
           <Typography variant="body2" color="text.secondary">
             {description}
           </Typography>
-          {actionBtnName?          <ApproveCampaignButton
-            btnName={actionBtnName}
-            onClick={action}
-            campaignObj={campaignObj}
-            refreshCampaigns={refreshCampaigns}
-          />:""}
-
         </CardContent>
+        <CardActions>
+          {actionBtnName ? (
+            <CampaignActionButton
+              btnName={actionBtnName}
+              onClick={action}
+              campaignObj={campaignObj}
+              refreshCampaigns={refreshCampaigns}
+            />
+          ) : (
+            ""
+          )}
+          <Button
+            onClick={() => {
+              navigate(`/campaigns/${id}`, { state: campaignObj });
+            }}
+          >
+            View
+          </Button>
+        </CardActions>
       </CardActionArea>
     </Card>
   );

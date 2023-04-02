@@ -45,7 +45,7 @@ const RefundableCampaigns = () => {
       }}
     >
       {refundableCampaign ? (
-        refundCampaign > 0 ? (
+        refundableCampaign.length > 0 ? (
           refundableCampaign.map((campaign) => (
             <AdminCampaignTile
               campaignObj={campaign}

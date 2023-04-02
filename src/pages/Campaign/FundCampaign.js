@@ -14,7 +14,7 @@ const FundCampaign = ({ campaignId, refresh }) => {
   const setSnackbarProps = useContext(SnackbarContext);
 
   const transferfund = async (value) => {
-    if (value > contractConfig.minimumContribution) {
+    if (value >= contractConfig.minimumContribution) {
       try {
         setOpenModal(false);
         setOpenProgress(true);
@@ -73,7 +73,7 @@ const FundCampaign = ({ campaignId, refresh }) => {
         }}
         title="Fund Campaign"
       >
-        <FundForm onSubmit={transferfund} />
+        <FundForm onSubmit={transferfund} btnName="Fund"/>
       </ResponsiveModal>
       <BackdropProgress open={openProgress} />
     </>
