@@ -5,6 +5,7 @@ import BackdropProgress from "../../components/common/BackdropProgress";
 import CreateCampaignRequest from "../../components/createCampaignRequest";
 import { getCampaignsMetadata } from "../../helpers/getCampaignsMetadata";
 import CampaignTile from "../../components/common/CampaignTile";
+import NotFound from "../../components/common/NotFound";
 
 const CompletedCampaigns = () => {
   const contract = useContext(ContractContext).contract;
@@ -24,7 +25,7 @@ const CompletedCampaigns = () => {
 
   return (
     <>
-      {completedCampaigns ? (
+      {completedCampaigns ? completedCampaigns.length > 0 ?  (
         <Box
           sx={{
             display: "flex",
@@ -37,7 +38,7 @@ const CompletedCampaigns = () => {
             <CampaignTile campaignObj={campaign} />
           ))}
         </Box>
-      ) : (
+      ):<NotFound message="No Completed Campaigns Found"/> : (
         <BackdropProgress open={true} />
       )}
       <CreateCampaignRequest />

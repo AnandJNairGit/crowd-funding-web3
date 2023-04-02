@@ -8,7 +8,7 @@ const FloatingButton = ({onClick, title}) => {
     onClick={onClick}
     variant="extended"
     sx={{
-      background: "#52eb34",
+      background: "#6C63FF",
       position: "fixed",
       bottom: 30,
       right: 20,

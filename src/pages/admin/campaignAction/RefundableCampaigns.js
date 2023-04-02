@@ -2,6 +2,7 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { ContractContext } from "../../../App";
 import Centered from "../../../components/common/Centered";
+import NotFound from "../../../components/common/NotFound";
 import { getCampaignsMetadata } from "../../../helpers/getCampaignsMetadata";
 import AdminCampaignTile from "./AdminCampaignTile";
 
@@ -27,7 +28,6 @@ const RefundableCampaigns = () => {
       const transaction = await contract.refundCampaign(id);
       await transaction.wait();
     } catch (error) {
-
       console.log("refund campaign error-------->", error);
     }
   };
@@ -45,14 +45,18 @@ const RefundableCampaigns = () => {
       }}
     >
       {refundableCampaign ? (
-        refundableCampaign.map((campaign) => (
-          <AdminCampaignTile
-            campaignObj={campaign}
-            refreshCampaigns={fetchRefundableCampaigns}
-            action={refundCampaign}
-            actionBtnName="Refund"
-          />
-        ))
+        refundCampaign > 0 ? (
+          refundableCampaign.map((campaign) => (
+            <AdminCampaignTile
+              campaignObj={campaign}
+              refreshCampaigns={fetchRefundableCampaigns}
+              action={refundCampaign}
+              actionBtnName="Refund"
+            />
+          ))
+        ) : (
+          <NotFound message="No Campaigns Can Be Refunded" />
+        )
       ) : (
         // <BackdropProgress open={true} />
         <Centered>

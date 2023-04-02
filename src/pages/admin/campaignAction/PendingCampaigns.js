@@ -2,6 +2,7 @@ import { Box, CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { ContractContext } from "../../../App";
 import Centered from "../../../components/common/Centered";
+import NotFound from "../../../components/common/NotFound";
 import { getCampaignsMetadata } from "../../../helpers/getCampaignsMetadata";
 import AdminCampaignTile from "./AdminCampaignTile";
 
@@ -27,7 +28,6 @@ const PendingCampaigns = () => {
       const transaction = await contract.approveCamaignRequest(id);
       await transaction.wait();
     } catch (error) {
-
       console.log("approve campaign error-------->", error);
     }
   };
@@ -45,14 +45,18 @@ const PendingCampaigns = () => {
       }}
     >
       {pendingCampaign ? (
-        pendingCampaign.map((campaign) => (
-          <AdminCampaignTile
-            campaignObj={campaign}
-            refreshCampaigns={fetchPendingCampaigns}
-            action={approveCampaign}
-            actionBtnName="Approve"
-          />
-        ))
+        pendingCampaign.length > 0 ? (
+          pendingCampaign.map((campaign) => (
+            <AdminCampaignTile
+              campaignObj={campaign}
+              refreshCampaigns={fetchPendingCampaigns}
+              action={approveCampaign}
+              actionBtnName="Approve"
+            />
+          ))
+        ) : (
+          <NotFound message="No Pending Campaigns To Be Approved" />
+        )
       ) : (
         // <BackdropProgress open={true} />
         <Centered>
