@@ -2,7 +2,7 @@ import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
 import { ethers } from "ethers";
 import React, { useState } from "react";
 
-const FundForm = ({ onSubmit }) => {
+const FundForm = ({ onSubmit, btnName }) => {
   const [fund, setFund] = useState(100);
   const [unit, setUnit] = useState(0);
   const submit = async () => {
@@ -39,7 +39,7 @@ const FundForm = ({ onSubmit }) => {
           <MenuItem value={1}>Ether</MenuItem>
         </Select>
         <Button sx={{ marginTop: 2 }} variant="contained" onClick={submit}>
-          fund
+          {btnName}
         </Button>
       </Box>
     </>

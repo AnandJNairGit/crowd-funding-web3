@@ -7,44 +7,44 @@ import Centered from "../../../components/common/Centered";
 import FundForm from "../../../components/common/FundForm";
 import ResponsiveModal from "../../../components/common/ResponsiveModal";
 
-const MinimumContribution = () => {
+const CreationAmount = () => {
   const contract = useContext(ContractContext).contract;
   const setProgress = useContext(ProgressContext);
-  const [minimumContribution, setMinimumContribution] = useState();
+  const [creationAmount, setCreationAmount] = useState();
   const [openModal, setOpenModal] = useState(false);
 
-  const getMinimumContribution = async () => {
-    const contribution = await contract.minimumContribution();
-    const formatedContribution = ethers.utils.formatUnits(contribution);
+  const getCreationAmount = async () => {
+    const amount = await contract.creationPrice();
+    const formatedContribution = ethers.utils.formatUnits(amount);
 
     console.log("the minimum contribution-----", formatedContribution);
-    setMinimumContribution(formatedContribution);
+    setCreationAmount(formatedContribution);
   };
 
-  const updateMinimumContribution = async (value) => {
+  const updateCreationAmount = async (value) => {
     try {
       setOpenModal(false);
       setProgress(true);
-      const transaction = await contract.updateMinimumContribution(value);
+      const transaction = await contract.updateCreationPrice(value);
       await transaction.wait();
-      await getMinimumContribution();
+      await getCreationAmount();
     } catch (error) {
-      console.log("Error in update mininum contribution: ", error);
+      console.log("Error in update creation amount: ", error);
     } finally {
       setProgress(false);
     }
   };
 
   useEffect(() => {
-    getMinimumContribution();
+    getCreationAmount();
   }, []);
 
   return (
     <>
-      {minimumContribution ? (
+      {creationAmount ? (
         <Box textAlign="center">
-          <Typography variant="h4">{minimumContribution}</Typography>
-          <Typography fontSize="20px">Minimum Contribution (ETH)</Typography>
+          <Typography variant="h4">{creationAmount}</Typography>
+          <Typography fontSize="20px">Creation Amount (ETH)</Typography>
           <Button
             variant="contained"
             onClick={() => {
@@ -64,12 +64,12 @@ const MinimumContribution = () => {
         onClose={() => {
           setOpenModal(false);
         }}
-        title="Update Minimum Contribution"
+        title="Update Creation Amount"
       >
-        <FundForm onSubmit={updateMinimumContribution} btnName = "Update"/>
+        <FundForm onSubmit={updateCreationAmount} btnName = "Update" />
       </ResponsiveModal>
     </>
   );
 };
 
-export default MinimumContribution;
+export default CreationAmount;
