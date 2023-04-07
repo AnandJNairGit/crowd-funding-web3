@@ -1,6 +1,16 @@
 ### 1. Clone the repository:
 ### `git clone https://github.com/AnandJNairGit/crowd-funding-web3.git`
 
+### 2. Navigate to the project directory:
+### `cd crowd-funding-web3`
+
+Install the required dependencies using npm:
+`npm i`
+### Set up the environment variables for the application:
+
+Get your Pinata API Key and Secret from your Pinata account.
+In the project root directory, create a new file called .env.
+Open the .env file in a text editor and add the following lines:
 
 ### `npm start`
 
