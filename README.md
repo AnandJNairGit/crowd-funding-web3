@@ -8,7 +8,7 @@
 ### `npm i`
 ### Set up the environment variables for the application:
 
-Get your Pinata API Key and Secret from your Pinata account.
+Get your Pinata API Key and Secret from your Pinata account.\n
 In the project root directory, create a new file called `.env`.
 Open the `.env` file in a text editor and add the following lines:
 `REACT_APP_PINATA_API_KEY=<YOUR PINATA API KEY>
